@@ -17,7 +17,6 @@ contract NftAuction is Initializable,OwnableUpgradeable ,UUPSUpgradeable{
     uint[] auctionsIds;
     mapping(address => AggregatorV3Interface) public priceFeeds; // 货币价格预言机   tokenAddress => (ETH > ? USD   USDC > ? USD)
     bool private usePriceFeed; // 是否使用价格预言机 
-    address private auctionFactory; // 拍卖工厂地址   
 
     
 
@@ -41,11 +40,6 @@ contract NftAuction is Initializable,OwnableUpgradeable ,UUPSUpgradeable{
         super.__Ownable_init(msg.sender);
     }
 
-    function setAuctionFactory(address _auctionFactory) external onlyOwner{
-        require(_auctionFactory != address(0),"_auctionFactory is zero address");
-        auctionFactory = _auctionFactory;
-    }
-
      /**
      * Returns the latest answer.
      */
@@ -60,7 +54,7 @@ contract NftAuction is Initializable,OwnableUpgradeable ,UUPSUpgradeable{
         return answer;
     }
 
-    function bid(uint _auctionId,address tokenAddress,uint amount) external payable{
+    function bid(uint _auctionId,address tokenAddress,uint amount,address auctionFactory) external payable{
         NftAuctionFactory.Auction memory auction = NftAuctionFactory(auctionFactory).getAuctionInfo(_auctionId);
         // 判断竞拍是否结束
         uint nowSec = block.timestamp;

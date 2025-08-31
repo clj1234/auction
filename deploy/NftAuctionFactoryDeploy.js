@@ -2,16 +2,16 @@ const {ethers ,upgrades} = require('hardhat');
 const fs = require("fs");
 const path = require("path");
 require('dotenv').config({path: path.resolve(__dirname, '../.env')});
-const {usePriceFeed} = process.env.usePriceFeed;
 
 module.exports = async ({getNamedAccounts, deployments}) => {
   const {save} = deployments;
   const {deployer} = await getNamedAccounts();
   console.log("NftAuctionFactory====deployer =====",deployer);
   const nftAuctionFactory = await ethers.getContractFactory('NftAuctionFactory');
+  // console.log("NftAuctionFactory====usePriceFeed =====",process.env.usePriceFeed);
   const nftAuctionFactoryProxy = await upgrades.deployProxy(
     nftAuctionFactory,
-    [],  // initializer args
+    [process.env.auctionAddressConfig],  // initializer args
     {initializer: 'initialize',deployer}
   );
   await nftAuctionFactoryProxy.waitForDeployment();

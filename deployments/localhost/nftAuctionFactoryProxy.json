@@ -19,7 +19,7 @@
     "function endAuction(uint256)",
     "function getAllAuctionInfo() view returns ((uint256,address,address,uint256,uint256,address,uint256)[])",
     "function getAuctionInfo(uint256) view returns ((uint256,address,address,uint256,uint256,address,uint256))",
-    "function initialize()",
+    "function initialize(address)",
     "function onERC721Received(address,address,uint256,bytes) pure returns (bytes4)",
     "function owner() view returns (address)",
     "function proxiableUUID() view returns (bytes32)",

@@ -16,17 +16,11 @@ const { expect } = require("chai")
         // console.log("nftAuctionFactoryProxy.address =====",nftAuctionFactoryProxy.address);
         const nftAuctionProxy = await deployments.get("nftAuctionProxy");
         console.log("nftAuctionProxy.address =====",nftAuctionProxy.address);
-        // 设置拍卖工厂合约地址
+        // 设置拍卖合约地址
         const nftAuctionFactoryProxy = await deployments.get("nftAuctionFactoryProxy");
         const nftAuctionFactory = await ethers.getContractFactory("NftAuctionFactory");
         const nftAuctionFactoryContract = await nftAuctionFactory.attach(nftAuctionFactoryProxy.address).connect(signer);
         await nftAuctionFactoryContract.setAuctionAddress(nftAuctionProxy.address);
-
-        await ethers.getContractFactory("NftAuction");
-        const nftAuction = await ethers.getContractFactory("NftAuction");
-        const nftAuctionContract = await nftAuction.attach(nftAuctionProxy.address).connect(signer);
-        await nftAuctionContract.setAuctionFactory(nftAuctionFactoryProxy.address);
-
         console.log("set auctionFactory address success");
     }
 
@@ -60,7 +54,7 @@ const { expect } = require("chai")
         await nftAuctionFactoryContract.createAuction(myNftProxy.address,tokenId,300,ethers.ZeroAddress,1);
         // 出价
         let price = ethers.parseEther("0.01");
-        await buyerNftAuctionContract.bid(1,ethers.ZeroAddress,price,{ value: price });
+        await buyerNftAuctionContract.bid(1,ethers.ZeroAddress,price,nftAuctionFactoryProxy.address,{ value: price });
         // 等待拍卖结束
         await new Promise((resolve) => setTimeout(resolve, 2*1000));
         // 结束拍卖

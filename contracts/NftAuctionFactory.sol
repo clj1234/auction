@@ -32,15 +32,15 @@ contract NftAuctionFactory is Initializable,MyOwnable, IERC721Receiver ,UUPSUpgr
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
-    function initialize() public initializer{
+    function initialize(address _auctionAddress) public initializer{
         super.initOwner(msg.sender);
         auctionId = 1;
+        auctionAddress = _auctionAddress;
     }
 
     function setAuctionAddress(address _auctionAddress) external onlyOwner{
         require(_auctionAddress != address(0),"_auctionContract is zero address");
         auctionAddress = _auctionAddress;
-        // NftAuction(_auctionAddress).setAuctionFactory(address(this));
     }
     
     /**
