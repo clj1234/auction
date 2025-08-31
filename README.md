@@ -9,6 +9,7 @@ auction/
 │── test/			`单元测试`
 │── deploy/			`部署脚本`
 │── deployments/	`部署合约的信息`
+│── .env			`配置文件`
 
 	
 ```
