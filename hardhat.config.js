@@ -20,6 +20,12 @@ module.exports = {
       default: 1,
     },
   },
+  networks :{
+    sepolia:{
+      url: "",
+      accounts: [""]
+    }
+  }
   // paths:{
   //   sources: "./contracts",
   // }
